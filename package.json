@@ -1,0 +1,13 @@
+{
+  "name": "parcel-plugin-sw-precache",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Chuang Yu <cyu9960@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "parcel-bundler": "^1.1.0"
+  },
+  "dependencies": {
+    "sw-precache": "^5.2.1"
+  }
+}
