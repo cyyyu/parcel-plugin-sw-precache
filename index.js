@@ -11,7 +11,7 @@ const getServiceWorkder = dir =>
       staticFileGlobs: [
         dir + "/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}"
       ],
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/, /service-worker\.js$/],
       stripPrefix: dir
     })
     .catch(err => {
