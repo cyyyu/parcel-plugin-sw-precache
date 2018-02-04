@@ -8,6 +8,7 @@
     "parcel-bundler": "^1.1.0"
   },
   "dependencies": {
-    "sw-precache": "^5.2.1"
+    "sw-precache": "^5.2.1",
+    "uglify-es": "^3.3.9"
   }
 }
