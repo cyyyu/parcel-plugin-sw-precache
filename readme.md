@@ -2,6 +2,10 @@
 
 A Parcel plugin for generating a service worker that precaches resources.
 
-# License
+### Installation
+
+`npm install --save-dev parcel-plugin-sw-precache`
+
+### License
 
 MIT
