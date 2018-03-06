@@ -10,7 +10,7 @@ const getServiceWorkder = dir =>
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       navigateFallback: '/index.html',
       staticFileGlobs: [
-        dir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}'
+        dir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}'
       ],
       staticFileGlobsIgnorePatterns: [
         /\.map$/,
