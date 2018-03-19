@@ -3,21 +3,23 @@ const path = require('path')
 const swPrecache = require('sw-precache')
 const UglifyJS = require('uglify-es')
 
-const getServiceWorkder = dir =>
+const DEFAULT_CACHE_ID = 'parcel-plugin-sw-precache'
+
+const getServiceWorkder = ({ targetDir, cacheId = DEFAULT_CACHE_ID }) =>
   swPrecache
     .generate({
-      cacheId: 'parcel-plugin-sw-precache',
+      cacheId: cacheId,
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       navigateFallback: '/index.html',
       staticFileGlobs: [
-        dir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}'
+        targetDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}'
       ],
       staticFileGlobsIgnorePatterns: [
         /\.map$/,
         /asset-manifest\.json$/,
         /service-worker\.js$/
       ],
-      stripPrefix: dir
+      stripPrefix: targetDir
     })
     .catch(err => {
       throw err
@@ -25,11 +27,12 @@ const getServiceWorkder = dir =>
 
 module.exports = bundler => {
   const targetDir = bundler.options.outDir
-  const { minify } = bundler.options
+  const { minify, rootDir } = bundler.options
   bundler.on('bundled', () => {
+    const pkg = require(bundler.mainAsset.package.pkgfile)
     const fileName = 'service-worker.js'
     const serviceWorkerFilePath = path.resolve(targetDir, fileName)
-    getServiceWorkder(targetDir).then(codes => {
+    getServiceWorkder({ targetDir, cacheId: pkg.swCacheId }).then(codes => {
       if (minify) {
         const compressedCodes = {}
         compressedCodes[fileName] = codes
