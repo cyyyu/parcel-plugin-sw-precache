@@ -19,7 +19,10 @@ const getServiceWorkder = ({ targetDir, cacheId = DEFAULT_CACHE_ID }) =>
         /asset-manifest\.json$/,
         /service-worker\.js$/
       ],
-      stripPrefix: targetDir
+      stripPrefix: targetDir,
+
+      // https://firebase.google.com/docs/hosting/reserved-urls#reserved_urls_and_service_workers
+      navigateFallbackWhitelist: [/^(?!\/__).*/]
     })
     .catch(err => {
       throw err
