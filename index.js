@@ -35,7 +35,7 @@ module.exports = bundler => {
     const pkg = require(bundler.mainAsset.package.pkgfile)
     const fileName = 'service-worker.js'
     const serviceWorkerFilePath = path.resolve(targetDir, fileName)
-    getServiceWorkder({ targetDir, cacheId: pkg.swCacheId }).then(codes => {
+    getServiceWorkder({ targetDir, cacheId: pkg.name }).then(codes => {
       if (minify) {
         const compressedCodes = {}
         compressedCodes[fileName] = codes
