@@ -1,5 +1,7 @@
 # parcel-plugin-sw-precache
 
+[![npm version](https://badge.fury.io/js/parcel-plugin-sw-precache.svg)](https://badge.fury.io/js/parcel-plugin-sw-precache)
+
 A Parcel plugin for generating a service worker that precaches resources.
 
 ### Usage(Install)
