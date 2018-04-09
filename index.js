@@ -24,7 +24,8 @@ const getServiceWorkder = (
         /asset-manifest\.json$/,
         /service-worker\.js$/
       ],
-      stripPrefix: targetDir,
+      stripPrefix: targetDir + '/',
+      replacePrefix: '/',
 
       // https://firebase.google.com/docs/hosting/reserved-urls#reserved_urls_and_service_workers
       navigateFallbackWhitelist: [/^(?!\/__).*/],
