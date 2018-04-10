@@ -2,56 +2,52 @@ const { writeFileSync } = require('fs')
 const path = require('path')
 const swPrecache = require('sw-precache')
 const UglifyJS = require('uglify-es')
+const urlJoin = require('url-join')
 
-const DEFAULT_CACHE_ID = 'parcel-plugin-sw-precache'
-const DEFAULT_SW_PRECACHE_CONFIGS = {}
+const getServiceWorkder = options =>
+  swPrecache.generate(options).catch(err => {
+    throw err
+  })
 
-const getServiceWorkder = (
-  targetDir,
-  cacheId = DEFAULT_CACHE_ID,
-  options = DEFAULT_SW_PRECACHE_CONFIGS
-) =>
-  swPrecache
-    .generate({
-      cacheId,
+module.exports = bundler => {
+  const { minify, publicURL, outDir } = bundler.options
+
+  bundler.on('bundled', () => {
+    const pkg = require(bundler.mainAsset.package.pkgfile)
+    const swPrecacheConfigs = pkg['sw-precache']
+    const options = {
+      cacheId: pkg.name, // default cacheId
+
       dontCacheBustUrlsMatching: /\.\w{8}\./,
-      navigateFallback: '/index.html',
+      navigateFallback: urlJoin(publicURL, 'index.html'),
       staticFileGlobs: [
-        targetDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}'
+        outDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}'
       ],
       staticFileGlobsIgnorePatterns: [
         /\.map$/,
         /asset-manifest\.json$/,
         /service-worker\.js$/
       ],
-      stripPrefix: targetDir,
+
+      stripPrefix: outDir + '/',
+      replacePrefix: urlJoin(publicURL, '/'),
 
       // https://firebase.google.com/docs/hosting/reserved-urls#reserved_urls_and_service_workers
       navigateFallbackWhitelist: [/^(?!\/__).*/],
 
       // merge user configs
-      ...options
-    })
-    .catch(err => {
-      throw err
-    })
+      ...swPrecacheConfigs
+    }
 
-module.exports = bundler => {
-  const targetDir = bundler.options.outDir
-  const { minify, rootDir } = bundler.options
-
-  bundler.on('bundled', () => {
-    const pkg = require(bundler.mainAsset.package.pkgfile)
-    const swPrecacheConfigs = pkg['sw-precache']
-    const fileName = 'service-worker.js'
-    const serviceWorkerFilePath = path.resolve(targetDir, fileName)
-
-    getServiceWorkder(targetDir, pkg.name, swPrecacheConfigs).then(codes => {
+    getServiceWorkder(options).then(codes => {
+      const fileName = 'service-worker.js'
       if (minify) {
         const compressedCodes = {}
         compressedCodes[fileName] = codes
         codes = UglifyJS.minify(compressedCodes).code
       }
+
+      const serviceWorkerFilePath = path.resolve(outDir, fileName)
       writeFileSync(serviceWorkerFilePath, codes)
     })
   })
