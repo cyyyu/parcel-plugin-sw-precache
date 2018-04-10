@@ -4,6 +4,12 @@
   "main": "index.js",
   "author": "Chuang Yu <cyu9960@gmail.com>",
   "license": "MIT",
+  "repository": "github:cyyyu/parcel-plugin-sw-precache",
+  "description": "A Parcel plugin for generating a service worker that precaches resources.",
+  "bugs": {
+    "url": "https://github.com/cyyyu/parcel-plugin-sw-precache/issues",
+    "email": "cyu9960@gmail.com"
+  },
   "keywords": [
     "parcel",
     "pwa"
