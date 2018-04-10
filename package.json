@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "sw-precache": "^5.2.1",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "url-join": "^4.0.0"
   }
 }
