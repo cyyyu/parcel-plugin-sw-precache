@@ -13,7 +13,7 @@ module.exports = bundler => {
   const { minify, publicURL, outDir } = bundler.options
 
   bundler.on('bundled', () => {
-    const pkg = require(bundler.mainAsset.package.pkgfile)
+    const pkg = bundler.mainBundle.entryAsset.package
     const swPrecacheConfigs = pkg['sw-precache']
     const options = {
       cacheId: pkg.name, // default cacheId
