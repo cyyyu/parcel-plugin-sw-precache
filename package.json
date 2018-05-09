@@ -1,6 +1,6 @@
 {
   "name": "parcel-plugin-sw-precache",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "index.js",
   "author": "Chuang Yu <cyu9960@gmail.com>",
   "license": "MIT",
