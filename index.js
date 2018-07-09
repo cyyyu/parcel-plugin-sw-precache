@@ -50,6 +50,12 @@ module.exports = bundler => {
       ...swPrecacheConfigs
     }
 
+    // Update stripPrefix for Windows file path format
+    const isWin = /^win/.test(process.platform);
+    if (isWin) {
+      options.stripPrefix = options.stripPrefix.replace(/\\/g, '/');
+    }
+
     getServiceWorkder(options).then(codes => {
       const fileName = 'service-worker.js'
       if (minify) {
