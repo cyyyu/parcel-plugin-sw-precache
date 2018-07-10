@@ -31,7 +31,7 @@ module.exports = bundler => {
     const isWin = /^win/.test(process.platform);
     let stripPrefixDefault = outDir + '/';
     if (isWin) {
-      stripPrefixDefault = stripPrefix.replace(/\\/g, '/');
+      stripPrefixDefault = stripPrefixDefault.replace(/\\/g, '/');
     }
 
     const options = {
