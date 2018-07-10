@@ -25,13 +25,13 @@ module.exports = bundler => {
       pkg = bundler.mainBundle.entryAsset.package
     }
 
-    const swPrecacheConfigs = pkg['sw-precache'];
+    const swPrecacheConfigs = pkg['sw-precache']
 
     // Update default stripPrefix for Windows file path format
-    const isWin = /^win/.test(process.platform);
-    let stripPrefixDefault = outDir + '/';
+    const isWin = /^win/.test(process.platform)
+    let stripPrefixDefault = outDir + '/'
     if (isWin) {
-      stripPrefixDefault = stripPrefixDefault.replace(/\\/g, '/');
+      stripPrefixDefault = stripPrefixDefault.replace(/\\/g, '/')
     }
 
     const options = {
