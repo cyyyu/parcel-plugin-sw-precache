@@ -25,7 +25,15 @@ module.exports = bundler => {
       pkg = bundler.mainBundle.entryAsset.package
     }
 
-    const swPrecacheConfigs = pkg['sw-precache']
+    const swPrecacheConfigs = pkg['sw-precache'];
+
+    // Update default stripPrefix for Windows file path format
+    const isWin = /^win/.test(process.platform);
+    let stripPrefixDefault = outDir + '/';
+    if (isWin) {
+      stripPrefixDefault = stripPrefixDefault.replace(/\\/g, '/');
+    }
+
     const options = {
       cacheId: pkg.name, // default cacheId
 
@@ -40,7 +48,7 @@ module.exports = bundler => {
         /service-worker\.js$/
       ],
 
-      stripPrefix: outDir + '/',
+      stripPrefix: stripPrefixDefault,
       replacePrefix: urlJoin(publicURL, '/'),
 
       // https://firebase.google.com/docs/hosting/reserved-urls#reserved_urls_and_service_workers
