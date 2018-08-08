@@ -9,39 +9,27 @@ const getServiceWorkder = options =>
     throw err
   })
 
+const getValue = function (obj, key) {
+  return key.split('.').reduce(function (o, x) {
+    return (typeof o == 'undefined' || o === null) ? o : o[x];
+  }, obj);
+}
+
 module.exports = bundler => {
-  const { minify, publicURL, outDir } = bundler.options
+  const {
+    minify,
+    publicURL,
+    outDir
+  } = bundler.options
 
   bundler.on('bundled', async () => {
     let pkg
-    let mainAssetPackage
+    const entryAsset = getValue(bundler, 'mainBundle.entryAsset')
 
-    if (bundler.mainAsset) {
-      if (bundler.mainAsset.getPackage) {
-        mainAssetPackage = await bundler.mainAsset.getPackage()
-      } else {
-        mainAssetPackage = bundler.mainAsset.package
-      }
-    }
-
-    if (
-      mainAssetPackage &&
-      mainAssetPackage.pkgfile
-    ) {
-      // for parcel-bundler version@<1.8
-      pkg = require(mainAssetPackage.pkgfile)
-    } else {
-      let mainBundlePackage
-
-      if (bundler.mainBundle &&
-        bundler.mainBundle.entryAsset) {
-        if (bundler.mainBundle.entryAsset.getPackage) {
-          mainBundlePackage = await bundler.mainBundle.entryAsset.getPackage()
+    if (entryAsset) {
+      pkg = await entryAsset.getPackage()
         } else {
-          mainBundlePackage = bundler.mainBundle.entryAsset.package
-        }
-      }
-      pkg = await mainBundlePackage
+      throw new Error('The bundler properties/sub-properties (mainBundle / entryAsset) seems to be not present')
     }
 
     const swPrecacheConfigs = pkg['sw-precache']
