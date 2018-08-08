@@ -12,17 +12,36 @@ const getServiceWorkder = options =>
 module.exports = bundler => {
   const { minify, publicURL, outDir } = bundler.options
 
-  bundler.on('bundled', () => {
+  bundler.on('bundled', async () => {
     let pkg
+    let mainAssetPackage
+
+    if (bundler.mainAsset) {
+      if (bundler.mainAsset.getPackage) {
+        mainAssetPackage = await bundler.mainAsset.getPackage()
+      } else {
+        mainAssetPackage = bundler.mainAsset.package
+      }
+    }
+
     if (
-      bundler.mainAsset &&
-      bundler.mainAsset.package &&
-      bundler.mainAsset.package.pkgfile
+      mainAssetPackage &&
+      mainAssetPackage.pkgfile
     ) {
       // for parcel-bundler version@<1.8
-      pkg = require(bundler.mainAsset.package.pkgfile)
+      pkg = require(mainAssetPackage.pkgfile)
     } else {
-      pkg = bundler.mainBundle.entryAsset.package
+      let mainBundlePackage
+
+      if (bundler.mainBundle &&
+        bundler.mainBundle.entryAsset) {
+        if (bundler.mainBundle.entryAsset.getPackage) {
+          mainBundlePackage = await bundler.mainBundle.entryAsset.getPackage()
+        } else {
+          mainBundlePackage = bundler.mainBundle.entryAsset.package
+        }
+      }
+      pkg = await mainBundlePackage
     }
 
     const swPrecacheConfigs = pkg['sw-precache']
