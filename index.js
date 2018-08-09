@@ -22,9 +22,9 @@ module.exports = bundler => {
     let pkg
     const entryAsset = getValue(bundler, 'mainBundle.entryAsset')
 
-    if (entryAsset) {
+    try {
       pkg = await entryAsset.getPackage()
-    } else {
+    } catch (err) {
       throw new Error(
         'The bundler properties/sub-properties (mainBundle / entryAsset) seems to be not present'
       )
