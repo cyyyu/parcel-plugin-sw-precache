@@ -15,7 +15,7 @@
     "pwa"
   ],
   "peerDependencies": {
-    "parcel-bundler": "^1.8.1"
+    "parcel-bundler": "^1.9.7"
   },
   "dependencies": {
     "sw-precache": "^5.2.1",
