@@ -9,18 +9,14 @@ const getServiceWorkder = options =>
     throw err
   })
 
-const getValue = function (obj, key) {
-  return key.split('.').reduce(function (o, x) {
-    return (typeof o == 'undefined' || o === null) ? o : o[x];
-  }, obj);
+const getValue = function(obj, key) {
+  return key.split('.').reduce(function(o, x) {
+    return typeof o == 'undefined' || o === null ? o : o[x]
+  }, obj)
 }
 
 module.exports = bundler => {
-  const {
-    minify,
-    publicURL,
-    outDir
-  } = bundler.options
+  const { minify, publicURL, outDir } = bundler.options
 
   bundler.on('bundled', async () => {
     let pkg
@@ -28,8 +24,10 @@ module.exports = bundler => {
 
     if (entryAsset) {
       pkg = await entryAsset.getPackage()
-        } else {
-      throw new Error('The bundler properties/sub-properties (mainBundle / entryAsset) seems to be not present')
+    } else {
+      throw new Error(
+        'The bundler properties/sub-properties (mainBundle / entryAsset) seems to be not present'
+      )
     }
 
     const swPrecacheConfigs = pkg['sw-precache']
