@@ -15,6 +15,13 @@ const getValue = function(obj, key) {
   }, obj)
 }
 
+// These configs are supplied as array of strings and should be converted to array of regexps
+const regexpConfigs = [
+  'dontCacheBustUrlsMatching',
+  'ignoreUrlParametersMatching',
+  'navigateFallbackWhitelist'
+]
+
 module.exports = bundler => {
   const { minify, publicURL, outDir } = bundler.options
 
@@ -31,6 +38,17 @@ module.exports = bundler => {
     }
 
     const swPrecacheConfigs = pkg['sw-precache']
+
+    if (swPrecacheConfigs) {
+      // Respect regexp configs
+      regexpConfigs.forEach(config => {
+        if (swPrecacheConfigs[config]) {
+          swPrecacheConfigs[config] = swPrecacheConfigs[config].map(
+            strValue => new RegExp(strValue)
+          )
+        }
+      })
+    }
 
     // Update default stripPrefix for Windows file path format
     const isWin = /^win/.test(process.platform)
