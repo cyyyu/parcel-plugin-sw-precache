@@ -19,7 +19,8 @@ const getValue = function(obj, key) {
 const regexpConfigs = [
   'dontCacheBustUrlsMatching',
   'ignoreUrlParametersMatching',
-  'navigateFallbackWhitelist'
+  'navigateFallbackWhitelist',
+  'staticFileGlobsIgnorePatterns'
 ]
 
 module.exports = bundler => {
