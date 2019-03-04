@@ -83,6 +83,12 @@ module.exports = bundler => {
     }
 
     getServiceWorkder(options).then(codes => {
+
+      // Adding additionalCode to ServiceWorker File
+      if(options.additionalCode) {
+        codes += options.additionalCode;
+      }
+
       const fileName = 'service-worker.js'
       if (minify) {
         const compressedCodes = {}
