@@ -18,7 +18,7 @@ Internally it is using [sw-precache](https://github.com/GoogleChromeLabs/sw-prec
 
 If you want to configure `sw-precache`, you can supply the configs by adding them in your `package.json` within the key `sw-precache`. See all avaibale options at: https://github.com/GoogleChromeLabs/sw-precache#options-parameter
 
-Addatianlly this plugin have the option "**additionalCode**" if you want to add anything to your service-worker.js (for example a new event-handler).
+Additionally this plugin have the option "**additionalCodeFile**" if you want to add anything to your service-worker.js (for example a new event-handler). Add a File-name releative to the entrypoint specified to Parcel.
 
 For example:
 
@@ -31,7 +31,7 @@ For example:
   // my sw-precache configs
   "sw-precache": {
     "maximumFileSizeToCacheInBytes": 10485760,
-    "additionalCode": "self.addEventListener('message', function (event) { if (event.data.action === 'skipWaiting') { self.skipWaiting() } });"
+    "additionalCodeFile": "addSome.js"
   }
 }
 ```
