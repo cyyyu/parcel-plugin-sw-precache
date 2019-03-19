@@ -1,4 +1,4 @@
-const { writeFileSync } = require('fs')
+const { writeFileSync, readFileSync } = require('fs')
 const path = require('path')
 const swPrecache = require('sw-precache')
 const UglifyJS = require('uglify-es')
@@ -24,7 +24,7 @@ const regexpConfigs = [
 ]
 
 module.exports = bundler => {
-  const { minify, publicURL, outDir } = bundler.options
+  const { minify, publicURL, outDir, rootDir } = bundler.options
 
   bundler.on('bundled', async () => {
     let pkg
@@ -83,6 +83,13 @@ module.exports = bundler => {
     }
 
     getServiceWorkder(options).then(codes => {
+
+      // Adding additionalCode to ServiceWorker File
+      if(options.additionalCodeFile) {
+        const additionalCode = readFileSync(path.resolve(rootDir, options.additionalCodeFile), 'utf8');
+        codes += additionalCode;
+      }
+
       const fileName = 'service-worker.js'
       if (minify) {
         const compressedCodes = {}
