@@ -64,7 +64,7 @@ module.exports = bundler => {
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       navigateFallback: urlJoin(publicURL, 'index.html'),
       staticFileGlobs: [
-        outDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2,ogg,wav,mp3,wasm}'
+        outDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2,ogg,wav,mp3,wasm,webp}'
       ],
       staticFileGlobsIgnorePatterns: [
         /\.map$/,
