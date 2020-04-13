@@ -35,6 +35,8 @@ For example:
   }
 }
 ```
+**Note:** only files with the following extensions will be added to the precache :
+`js, html, css, png, jpg, gif, svg, eot, ttf, woff, woff2, ogg, wav, mp3, wasm, webp, pdf`
 
 ### License
 
