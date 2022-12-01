@@ -4,7 +4,7 @@ const swPrecache = require('sw-precache')
 const UglifyJS = require('uglify-es')
 const urlJoin = require('url-join')
 
-const getServiceWorkder = options =>
+const getServiceWorker = options =>
   swPrecache.generate(options).catch(err => {
     throw err
   })
@@ -82,7 +82,7 @@ module.exports = bundler => {
       ...swPrecacheConfigs
     }
 
-    getServiceWorkder(options).then(codes => {
+    getServiceWorker(options).then(codes => {
 
       // Adding additionalCode to ServiceWorker File
       if(options.additionalCodeFile) {
